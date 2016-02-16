@@ -1,0 +1,616 @@
+2009-10-15  Chris Mason  <chris.mason@oracle.com>
+
+	* cmd/seekwatcher:
+	Update the stats table to only contain information about graphs
+	generated
+	[b392aeaf693b] [tip]
+
+2009-10-07  Chris Mason  <chris.mason@oracle.com>
+
+	* cmd/seekwatcher, seekwatcher/rundata.c, seekwatcher/rundata.pyx:
+	Add options to control the number of columns in the graph output as
+	well as fine tune the graph layout.
+	[62648602f22c]
+
+2009-10-06  Chris Mason  <chris.mason@oracle.com>
+
+	* cmd/seekwatcher:
+	Fix seek count label fix
+	[ec0c41d9b70b]
+
+	* cmd/seekwatcher:
+	Fix seek labels when there are a very small number of seeks.
+	[fe865d3ea247]
+
+2009-09-16  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher/blkparse.c, seekwatcher/rundata.c:
+	Add the cython compiled C files
+	[536ebeb9f21b]
+
+2009-09-15  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher/rundata.pyx, setup-cython.py, setup.py:
+	Setup a non-cython setup.py
+	[40eded671111]
+
+2009-09-01  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher/rundata.pyx:
+	Whoops, fix movies
+	[df0c67a18f42]
+
+	* seekwatcher/blkparse.pyx, seekwatcher/rundata.pyx:
+	Drop more python from the cython code, minor improvement
+	[f48b021bf83c]
+
+	* README.html, cmd/seekwatcher, seekwatcher/blkparse.pyx,
+	seekwatcher/rundata.pyx:
+	Speedup: use a C struct for the blkparse parsing.
+	[a59a2bc5d7e1]
+
+2009-08-31  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher/rundata.pyx:
+	Parse the blkparse binary format for faster processing
+	[93573e5775ba]
+
+	* cmd/seekwatcher, seekwatcher/blkparse.pyx, seekwatcher/rundata.pyx,
+	setup.py:
+	Parse blkparse bin format directly
+	[977271fa3fcb]
+
+	* seekwatcher/__init__.py:
+	Add forgotten file
+	[e23e50a46456]
+
+	* cmd/seekwatcher, seekwatcher/rundata.pyx:
+	Move some of the movie processing into the cython extension
+	[94a52ec6474f]
+
+	* cmd/seekwatcher, seekwatcher, seekwatcher/rundata.pyx, setup.py:
+	Add cython extension for speed
+	[d7eadc715444]
+
+2009-08-28  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Fix color labels on per-process tagged plots
+	[483dffb2ac71]
+
+	* seekwatcher:
+	Fix legend_colors usage in plot_seek_count
+	[3b8227aa6c6f]
+
+	* seekwatcher, tag-by-process:
+	Fold in tag-by-process functionality into seekwatcher
+	[84885e189191]
+
+	* seekwatcher:
+	Fix tag-by-proces output
+	[bd63a1902407]
+
+2009-08-27  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Rewrite plotting routines. Faster, much less ram.
+
+	The old code would create an array of all the data from the trace,
+	and then filter that array over and over again to produce the
+	different graphs.
+
+	The new code creates only the array needed to do the data plot, and
+	it tries to be as small as possible.
+
+	The data for the other graphs is created as we read the blkparse
+	output, so we don't have to iterate over all the blktrace data more
+	than once.
+	[8f775d060f20]
+
+2009-08-26  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Fix last time in seek, iop and tput graphs
+
+	It was using xmax, which is correct in a single run trace but not
+	when there is more than one run.
+	[e4d1ff71a32e]
+
+	* seekwatcher:
+	Fix seek highlighting in the summary table
+	[2dcf4d42bcc4]
+
+	* seekwatcher:
+	When using xzoom, ignore data outside the zoom times
+	[07fdcfadbfdb]
+
+	* seekwatcher:
+	Don't use the frameon subplot parameter, it is very new
+	[c562e498c2a5]
+
+	* seekwatcher:
+	Cleanup ticks and x axis zooming
+	[6ef7c4d5d2fb]
+
+	* seekwatcher, tag-by-process:
+	Now that seekwatcher understands more trace events, we don't need
+	special handling for the tag-by-process input.
+
+	Strip out the filtering and make tag-by-process send the full 'Q'
+	event.
+	[c6b0cb77c8ad]
+
+	* seekwatcher, tag-by-process:
+	Update tag-by-process uage
+	[f095381aa246]
+
+	* seekwatcher:
+	Fix line width to be a float instead of a string on the IO graph
+	[5693763dc1b7]
+
+	* seekwatcher:
+	Fix throughput plot in movie mode
+	[8abb6f4c8686]
+
+	* seekwatcher:
+	Add an iop/s graph and an option (-F) to control the figure size.
+	[5ba8f0562c92]
+
+	* seekwatcher:
+	Fix io graph legend marker size. Matplotlib doesn't correctly scale
+	anymore
+	[8ce534a5109f]
+
+	* seekwatcher:
+	Maintain the same color for each label in all graphs
+	[02b0e0fa0312]
+
+	* seekwatcher:
+	Add highlights for best values in the table
+	[32d5f4344634]
+
+2009-08-25  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Decrease tick fontsize and add more ticks
+	[f743bf8338cc]
+
+	* seekwatcher:
+	Add a table to show important numbers for each run
+	[9e0e3161bb3c]
+
+	* seekwatcher:
+	Add seekwatcher -D to store the trace file in a separate directory
+
+	This matches the blkparse/blktrace convention.
+	[24fe356481eb]
+
+	* seekwatcher:
+	Fix data set selection typo and remove some bogus debug statements
+	[95fec8d59a96]
+
+	* seekwatcher:
+	Add -s to only graph seeks in the IO graph. This lets you
+	concentrate only on the bad IO.
+	[7846b11f959b]
+
+	* seekwatcher:
+	Fix multi-device trace graphing
+	[ea946eacdd19]
+
+2009-08-24  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher, tag-by-process:
+	Fix seek graphs on very fast drives
+
+	Default to using both the queue and completion events so that we can
+	generate accurate seeking graphs
+	[c0eebcda9bcc]
+
+2009-06-30  Eric Sandeen  <sandeen@redhat.com>
+
+	* seekwatcher:
+	Update to the latest matplotlib
+
+	On Rawhide I'm getting these errors: DeprecationWarning: Use
+	'handletextpad' instead of 'handletextsep'. DeprecationWarning: Use
+	'borderpad' instead of 'pad'. DeprecationWarning: Use 'labelspacing'
+	instead of 'labelsep'.
+
+	due to this in matplotlib:
+
+	 # Take care the deprecated keywords deprecated_kwds
+	= {"pad":"borderpad",
+	"labelsep":"labelspacing",
+	"handlelen":"handlelength",
+	"handletextsep":"handletextpad",
+	"axespad":"borderaxespad"}
+
+	and the below seems to fix it right up (and make the graphs look
+	right again...) I don't know what implications this has (if any) for
+	older matplotlib...
+
+	Signed-off-by: Eric Sandeen <sandeen@redhat.com>
+	[fa41ab336af1]
+
+2009-06-30  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Fix a few bugs in the tagging code
+	[60e99f7c1346]
+
+2009-06-30  Jeff Moyer  <jmoyer@redhat.com>
+
+	* seekwatcher:
+	Fix zooming annotations in interactive mode
+
+	In seekwatcher, if you decide to select a rectangle for zooming, for
+	example, you will get an annotation box for the point where you
+	release the mouse button. For me, this wasn't the expected
+	behaviour. To remedy that, I just checked to see that the x and y
+	position of the mouse is the same at button release time as it was
+	on button press.
+
+	Signed-off-by: Jeff Moyer <jmoyer@redhat.com>
+	[4447ced30dfe]
+
+	* seekwatcher:
+	Be smarter about detecting installed video encoders
+	[0a3c4fbd2c92]
+
+2009-06-30  Jan Kara  <jack@suse.cz>
+
+	* tag-by-process:
+	Implement script tagging blkparse output by PID and/or name
+	--- tag-by-process | 77
+	++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 1 files
+	changed, 77 insertions(+), 0 deletions(-) create mode 100755 tag-
+	by-process
+	[cf8c010fbc2e]
+
+	* seekwatcher:
+	IO tagging Implement reading parsed input from a file. In the file
+	IO can be tagged and IO with different tags is displayed in
+	different color.
+
+	Signed-off-by: Jan Kara <jack@suse.cz>
+	[915177f2345b]
+
+	* seekwatcher:
+	Improve legend drawing for IO graph only plots
+	[11cc48e2c19f]
+
+	* seekwatcher:
+	Implement --only-io-graph option allowing to show only IO graph.
+	Signed-off-by: Jan Kara <jack@suse.cz>
+	--- seekwatcher | 101
+	+++++++++++++++++++++++++++++++--------------------------- 1 files
+	changed, 54 insertions(+), 47 deletions(-)
+	[018e78f1631e]
+
+	* seekwatcher:
+	Subject: Fix type of dpi option.
+
+	Signed-off-by: Jan Kara <jack@suse.cz>
+	[44c568c2824c]
+
+2009-06-30  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Raise the graph slightly off zero to avoid losing some dots
+	[abe2f958ba98]
+
+2008-08-14  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Scale the marker on the legend
+	[15af08e84de9]
+
+2008-06-04  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.12 for changeset 91ae82c6c7de
+	[6e128c643ea6]
+
+2008-05-30  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Add options to control io graphs
+
+	--io-graph-dots='' line style, good choices are '.', 's', 'o' and
+	'-'
+	--io-graph-marker-size=number default 1.5, good choices are between
+	0.5 and 2
+	--io-graph-cell-multi=number default 2, good choices are 2-20
+
+	 io-graph-cell-multi changes the resolution of the io graph. Higher
+	numbers make higher resolution plots, but they take longer to
+	create.
+	[91ae82c6c7de] [v0.12]
+
+2008-05-30  Eric Sandeen  <sandeen@redhat.com>
+
+	* seekwatcher:
+	Fix calcs for sector ranges
+
+	When automatically calculating the min/max for the sector range (y
+	axis), we should look at the range of IO we have actually captured,
+	and not start at the start of the disk. Especially when /dev/sdbX
+	traces actually report sectors offset from /dev/sdb
+	[f7608711f4c8]
+
+2008-05-09  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Install a signal handler to kill off blktrace
+
+	If blktrace gets the wrong signals, it can fail to clean up,
+	especially in multi-device mode. Hopefully this fixes things
+	[6b3fe7912f02]
+
+2008-05-01  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Fix path names for trace reading
+	[91522a09e2ac]
+
+2008-04-14  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.11 for changeset 4c921a30741c
+	[fed2950a843d]
+
+	* seekwatcher:
+	Fix for older matplotlib not understanding linestyle arg
+	[4c921a30741c] [v0.11]
+
+2008-04-11  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Support for multiple devices via the -d option
+	[3cc528af4279]
+
+2008-03-07  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.10 for changeset 8b93de4351c8
+	[18310abb7d55]
+
+	* seekwatcher:
+	Fix full trace option when in blktrace_only mode
+	[8b93de4351c8] [v0.10]
+
+2008-03-03  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Add trace filtering
+	[d160379a77fa]
+
+2008-02-04  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Don't draw at y=0, it can get hidden on wide graphs
+	[7f2de9f0298c]
+
+2007-11-30  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.9 for changeset 5aeb1c615ed2
+	[b907753cd17b]
+
+	* README.html:
+	Update docs
+	[5aeb1c615ed2] [v0.9]
+
+2007-11-27  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Add support for png2theora ogg movies
+	[3b0893c5964e]
+
+2007-11-20  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Don't display movie options if mencoder isn't found
+	[43f6015c848b]
+
+	* seekwatcher:
+	Use a temp dir for movie pngs
+
+	seekwatcher --movie now takes the mpg name as the output file and
+	cleans up the png files used to create it
+	[17613d88f107]
+
+2007-11-08  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Create a blktrace only mode when matplotlib is not found
+	[8201ef3f5045]
+
+2007-10-29  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Add read/write graph restrictions
+	[6622bde196b6]
+
+2007-10-26  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	Add -T for figure title
+	[21809b54bf7c]
+
+	* seekwatcher:
+	Add interactive mode -i and --backend to control the interactive
+	backend
+	[12fb02c59cdf]
+
+	* seekwatcher:
+	blkparse debugging
+	[c57ac2973f31]
+
+2007-09-12  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.8 for changeset 11248b82891e
+	[9b984a85199f]
+
+2007-08-29  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	fixes for matplotlib 0.90.1
+	[11248b82891e] [v0.8]
+
+2007-08-27  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.7 for changeset f91bd9403f9c
+	[e47c024b96e2]
+
+2007-08-22  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	use sys.exit intead of exit
+	[f91bd9403f9c] [v0.7]
+
+	* seekwatcher:
+	more tick fixes
+	[6a12780e826c]
+
+	* seekwatcher:
+	Fix tput graph for ranges < 1
+	[07477332a0a9]
+
+2007-08-17  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	fix some double counting of IO
+	[c47e57d9a26d]
+
+2007-08-14  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	add vbitrate option
+	[b5e934b57664]
+
+2007-08-01  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.6 for changeset d53de0d6d7b2
+	[e9c88279561c]
+
+2007-07-31  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	histogram and blkparse speedups
+	[d53de0d6d7b2] [v0.6]
+
+	* seekwatcher:
+	colors
+	[12a2a4193c54]
+
+2007-07-30  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	fix seek and tput graphs for short runs
+	[0d56568d6b66]
+
+	* .hgtags:
+	Added tag v0.5 for changeset 20a4c5ad7bd6
+	[8da04a9844c5]
+
+	* seekwatcher:
+	add --move-cell-size to control movie detail
+	[20a4c5ad7bd6] [v0.5]
+
+	* seekwatcher:
+	rework movie plotting
+	[24d150badb0a]
+
+	* seekwatcher:
+	many speed fixes
+	[9137029048b1]
+
+	* seekwatcher:
+	use floats in the tput graph
+	[d797e1315964]
+
+2007-07-29  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.4 for changeset 527b7b7747af
+	[47e920577fb9]
+
+	* seekwatcher:
+	move debugfs checks into -p
+	[527b7b7747af] [v0.4]
+
+2007-07-29  Michal Piotrowski  <michal.k.k.piotrowski@gmail.com>
+
+	* seekwatcher:
+	Add checks for blktrace and debugfs
+	[e360912cb64e]
+
+2007-07-29  Chris Mason  <chris.mason@oracle.com>
+
+	* COPYING, seekwatcher:
+	add GPL
+	[afe55317d4ba]
+
+	* seekwatcher:
+	add a seek graph to the movies
+	[aa69a5b3e76c]
+
+2007-07-27  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.3 for changeset f25ce79b1f5c
+	[933d46c07444]
+
+	* README.html, seekwatcher:
+	movies movies
+	[f25ce79b1f5c] [v0.3]
+
+	* seekwatcher:
+	Rolling averages for seeks & tput
+	[3746f16341a8]
+
+2007-07-23  Chris Mason  <chris.mason@oracle.com>
+
+	* .hgtags:
+	Added tag v0.2 for changeset 4ec322288922
+	[0a8cc4a1d1c5]
+
+	* README.html, seekwatcher:
+	add some docs
+	[4ec322288922] [v0.2]
+
+	* seekwatcher:
+	support multiple graphs
+	[8b73e660930f]
+
+2007-06-25  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	more label fixups
+	[33ec3b7ee0f2]
+
+	* seekwatcher:
+	better throughput ticks
+	[164db1ade0e1]
+
+	* seekwatcher:
+	working
+	[f23543e30463]
+
+2007-06-11  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	working
+	[84f444b39383]
+
+2007-06-01  Chris Mason  <chris.mason@oracle.com>
+
+	* seekwatcher:
+	initial rev
+	[6660d5dd4f7a]
+
